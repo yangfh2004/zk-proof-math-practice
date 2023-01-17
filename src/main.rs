@@ -183,6 +183,13 @@ mod tests {
     Test1: Write code to create a private/public key pair, then construct a schnorr proof and write a test to verify it.
 
     Bonus: Show the math which proves that for a valid proof 'V = G^r ★ X^c'.
+    Answer:
+    To prove V = G*r + X*c [1] knowing V = G*v [2] && r = v -c*x [3] && X = G*x [4]
+    [1] => G*v = G (v - c*x) + X*c
+    => G*v = G*v - G*c*x + X*c
+    => G*c*x = X*c
+    => G*x*c = X*c
+    => X*c = X*c
      */
     let x = gen_private_key();
     let X = gen_pub_key(x);
@@ -223,6 +230,10 @@ mod tests {
     Test2: construct a ring signature using at least one mixin, then write a test showing that the proof is valid
 
     Bonus: explain why the sum of the 'c's should equal the hash for a valid proof
+    Answer:
+    Knowing c = H('V', 'G^r1 ★ X1^c1') - 'c1'
+    => c + c1 = H('V', 'G^r1 ★ X1^c1') applying with V = G^r ★ X^c (its proof in the exercise 1)
+    => 'c' + 'c1' = H('G^r ★ X^c','G^r1 ★ X1^c1')
      */
     let x = gen_private_key();
     let X = gen_pub_key(x);
@@ -260,6 +271,12 @@ mod tests {
     Show that 'x' is the private key for 'X'.
 
     Bonus: explain why 'x' is the private key for 'X'
+    Answer:
+    First H(A*r) = H(G*a*r) = H(G*r*a) = H(R*a)
+    Start with x = H(R*a) + b, multiply by G on the both side
+    => G*x = G*(H(R*a) + b)
+    => X = G*H(R*a) + G*b
+    => X = G*H(A*r) + B, which is a known equation.
      */
     let (a, b) = (gen_private_key(), gen_private_key());
     let pub_key = (gen_pub_key(a), gen_pub_key(b));
